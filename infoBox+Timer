@@ -1,0 +1,77 @@
+; === SETUP ===
+clientTitle := "OpenOSRS" ; The exact title of your client.
+chatboxX := 22
+chatboxY := 748
+chatboxWidth := 1010
+chatboxHeight := 257
+bgTransparent := "false" ; true if you wish the gui background to be transparent, false if not.
+
+; === Don't touch any of this ===
+Gui, Margin, 0, 0
+Gui, Color, 0xCBBA95
+Gui, Add, Text, x20 y20 w230 vrowTimer hwndrowTimer, % "Time running: " runTime()
+Gui, Add, Text, x20 y35 w230 vrow1 hwndrow1
+Gui, Add, Text, x20 y50 w230 vrow2 hwndrow2
+Gui, Add, Text, x20 y65 w230 vrow3 hwndrow3
+Gui, Add, Text, x20 y80 w230 vrow4 hwndrow4
+Gui, Add, Text, x252 y20 w230 vrow5 hwndrow5
+Gui, Add, Text, x252 y35 w230 vrow6 hwndrow6
+Gui, Add, Text, x252 y50 w230 vrow7 hwndrow7
+Gui, Add, Text, x252 y65 w230 vrow8 hwndrow8
+Gui, Add, Text, x252 y80 w230 vrow9 hwndrow9
+WinSet, Transparent, 255
+
+if (bgTransparent = "true") {
+    Gui, +E0x20 +toolWindow -caption -dpiScale +lastFound +alwaysOnTop hwndhChild
+    WinSet, TransColor, 0xCBBA95
+} else
+    Gui, +toolWindow -caption -dpiScale +lastFound +alwaysOnTop hwndhChild
+hParent := WinExist(clientTitle)
+DllCall("SetParent", Ptr, hChild, Ptr, hParent)
+
+Gui, Show, x%chatboxX% y%chatboxY% w%chatboxWidth% h%chatboxHeight% NA
+
+SetTimer, timerUpdate, 75
+
+
+; === Put your own code in here ===
+F1::
+    variableExample++
+    Return
+
+F2::Reload
+
+
+; === Here you can put whatever you want in each row. ===
+; === Text, variables, expressions, whatever! ===
+timerUpdate:
+    GuiControl,, rowTimer, % "Time running: " runTime() ; This is an example of an expression working
+    GuiControl,, row1,                                  ; (although don't change it - it's the timer!)
+    GuiControl,, row2, 
+    GuiControl,, row3, Text example! ; Pretty self explanatory.
+    GuiControl,, row4, 
+    GuiControl,, row5, % variableExample ; Hit F1 a few times to see this work.
+    GuiControl,, row6,                   ; Don't forget the % when using variables.
+    GuiControl,, row7, 
+    GuiControl,, row8,
+    GuiControl,, row9,
+    Return
+
+
+; === FUNCTIONS ===
+runTime() {
+    static CounterBefore
+    if !CounterBefore
+        CounterBefore := A_TickCount
+    Return toHHMMSS((A_TickCount - CounterBefore) / 1000)
+}
+
+toHHMMSS(sec) {
+    oldFormat := A_FormatFloat
+    SetFormat, Float, 02.0
+	hrs := sec // 3600 / 1
+	min := Mod(sec // 60, 60) / 1
+	sec := Mod(sec, 60) / 1
+    SetFormat, Float, % oldFormat
+	Return (hrs ? hrs "h " : "") (min ? min "m " : "") sec "s"
+}
