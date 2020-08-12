@@ -42,7 +42,7 @@ F1::
 F2::Reload
 
 
-; === Here you can put whatever you want in each row. ===
+; === Here you can put whatever you want in each row of the gui. ===
 ; === Text, variables, expressions, whatever! ===
 timerUpdate:
     GuiControl,, rowTimer, % "Time running: " runTime() ; This is an example of an expression working
