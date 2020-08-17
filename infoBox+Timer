@@ -31,7 +31,7 @@ DllCall("SetParent", Ptr, hChild, Ptr, hParent)
 
 Gui, Show, x%chatboxX% y%chatboxY% w%chatboxWidth% h%chatboxHeight% NA
 
-SetTimer, timerUpdate, 75
+SetTimer, guiUpdate, 75
 
 
 ; === Put your own code in here ===
@@ -44,7 +44,7 @@ F2::Reload
 
 ; === Here you can put whatever you want in each row of the gui. ===
 ; === Text, variables, expressions, whatever! ===
-timerUpdate:
+guiUpdate:
     GuiControl,, rowTimer, % "Time running: " runTime() ; This is an example of an expression working
     GuiControl,, row1,                                  ; (although don't change it - it's the timer!)
     GuiControl,, row2, 
