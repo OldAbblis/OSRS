@@ -60,7 +60,7 @@ timerUpdate:
 
 ; === FUNCTIONS ===
 runTime() {
-    static CounterBefore
+    Global
     if !CounterBefore
         CounterBefore := A_TickCount
     Return toHHMMSS((A_TickCount - CounterBefore) / 1000)
@@ -69,9 +69,9 @@ runTime() {
 toHHMMSS(sec) {
     oldFormat := A_FormatFloat
     SetFormat, Float, 02.0
-	hrs := sec // 3600 / 1
-	min := Mod(sec // 60, 60) / 1
-	sec := Mod(sec, 60) / 1
+    hrs := sec // 3600 / 1
+    min := Mod(sec // 60, 60) / 1
+    sec := Mod(sec, 60) / 1
     SetFormat, Float, % oldFormat
-	Return (hrs ? hrs "h " : "") (min ? min "m " : "") sec "s"
+    Return (hrs ? hrs "h " : "") (min ? min "m " : "") sec "s"
 }
